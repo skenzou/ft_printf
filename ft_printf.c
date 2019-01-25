@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/24 16:16:19 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/25 13:54:22 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void 		process_conversion(t_format *fmt, va_list ap)
 t_list		*parse_format(char *str, va_list ap)
 {
 	//t_list	*lst;
-	//t_format *fmt;
+	t_format *fmt;
 
 
 	//lst = NULL;
@@ -108,12 +108,15 @@ t_list		*parse_format(char *str, va_list ap)
 	{
 		if(*str == '%' && *(str + 1) != '%')
 		{
-			if (!check_conversion(str))
+			fmt = create_format(&str);
+			if (!check_conversion(&str))
 			{
-				str++;
+				free(fmt);
 				continue;
-			}else{
-				process_conversion(create_format(&str), ap);
+			}
+			else{
+				process_conversion(fmt, ap);
+				free(fmt);
 				/*if(!lst)
 					lst = create_format(&str), sizeof(t_format));
 				else
@@ -140,9 +143,9 @@ t_format	*create_format(char **str)
 	fmt->precision = get_precision(*str);
 	fmt->modifier = get_modifier(*str);
 	set_flags(*str, fmt);
-	while(**str && !ft_strchr(CONV, **str))
+	/*while(**str && !ft_strchr(CONV, **str))
 		(*str)++;
-	(*str)++;
+	(*str)++;*/
 	return (fmt);
 }
 
@@ -171,17 +174,18 @@ void 	set_flags(char *str, t_format *fmt)
 		str++;
 	}
 }
-int		check_conversion(char *str)
+int		check_conversion(char **str)
 {
-	str++;
-	while(*str && !ft_strchr(CONV, *str))
+	(*str)++;
+	while(**str && !ft_strchr(CONV, **str))
 	{
-		if(!ft_strchr("-+ 0lLh.", *str) && !ft_isdigit(*str))
+		if(!ft_strchr("-+ 0lLh.", **str) && !ft_isdigit(**str))
 			return (0);
-		str++;
+		(*str)++;
 	}
-	if (!*str)
+	if (!(**str))
 		return (0);
+	(*str)++;
 	return(1);
 }
 
@@ -334,7 +338,7 @@ void print_format(t_format *fmt)
 int main(void)
 {
 	//t_list *lst;
-	printf("abcd%- kd", 12);
+	ft_printf("abcd%- khhd", 129);
 	//printf("abcd%-+ 010.55llllld\nici:%d%3km1", 10, 20);
 	//lst = parse_format("%-+ 010.55llllld%+0120.49Lf");
 	//print_format(lst);
