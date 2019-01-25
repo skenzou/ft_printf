@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/25 13:54:22 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/25 20:26:38 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,29 @@
 	else
 	{*/
 
+void		handle_char(t_format *fmt, va_list ap)
+{
+
+}
+void		handle_oct(t_format *fmt, va_list ap)
+{
+
+}
+void		handle_hex(t_format *fmt, va_list ap)
+{}
+
+void		handle_unsigned(t_format *fmt, va_list ap)
+{}
+void		handle_pointer(t_format *fmt, va_list ap)
+{
+}
+void		handle_str(t_format *fmt, va_list ap)
+{}
+
+void		handle_float(t_format *fmt, va_list ap)
+{}
 #include <stdio.h>
-void		process_int(t_format *fmt, va_list ap)
+void		handle_int(t_format *fmt, va_list ap)
 {
 	int		i;
 	char *str;
@@ -44,12 +65,18 @@ void		process_int(t_format *fmt, va_list ap)
 	char *prec;
 	int		len;
 
+
 	fill = fmt->zero ? fmt->zero : ' ';
-	i = va_arg(ap, int);
+	if(fmt->modifier == HH)
+		i = (char) va_arg(ap, int);
+	else if (fmt->modifier == H)
+		i = (short) va_arg(ap, int);
+	else
+		i = va_arg(ap, int);
 	str = ft_itoa(i);
 	if ((fmt->plus || fmt->space) && i >= 0)
 		fmt->precision++;
-	len = fmt->width - fmt->precision;
+	//len = i < 0 ? fmt->width - fmt->precision - 1 : fmt->width - fmt->precision;
 	fmt->precision-=ft_strlen(str);
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
 	prec = ft_strnew(fmt->precision);
@@ -57,9 +84,10 @@ void		process_int(t_format *fmt, va_list ap)
 	prec[0] = fmt->space ? fmt->space : '0';
 	if (fmt->plus)
 		prec[0] = fmt->plus;
-	str = ft_strjoin(prec, str);
+	str = fmt->precision > 0 ? ft_strjoin(prec, str) : str;
 	if (fmt->minus)
 		ft_putstr(str);
+	len = fmt->width - ft_strlen(str);
 	while (len > 0)
 	{
 		ft_putchar(fill);
@@ -69,33 +97,6 @@ void		process_int(t_format *fmt, va_list ap)
 		ft_putstr(str);
 }
 
-void 		process_conversion(t_format *fmt, va_list ap)
-{
-	//print_format(fmt);
-	if (fmt->conversion == 'd' || fmt->conversion == 'i')
-		process_int(fmt, ap);
-	/*else if ((fmt->conversion == 'd' || fmt->conversion == 'i')
-		&& fmt->modifier == HH)
-		process_char(fmt, ap);
-	else if ((fmt->conversion == 'd' || fmt->conversion == 'i')
-		&& fmt->modifier == H)
-		process_short(fmt, ap);
-	if (fmt->conversion == 'o')
-		process_oct(fmt, ap);
-	if (fmt->conversion == 'u')
-		process_unsigned(fmt, ap);
-	if (fmt->conversion == 'x' || fmt->conversion == 'X')
-		process_hex(fmt, ap);
-	if (fmt->conversion == 'c')
-		process_char(fmt, ap);
-	if (fmt->conversion == 's')
-		process_str(fmt, ap);
-	if (fmt->conversion == 'p')
-		process_pointer(fmt, ap);
-	if (fmt->conversion == 'f')
-		process_float(fmt, ap);*/
-
-}
 
 t_list		*parse_format(char *str, va_list ap)
 {
@@ -115,7 +116,7 @@ t_list		*parse_format(char *str, va_list ap)
 				continue;
 			}
 			else{
-				process_conversion(fmt, ap);
+				fmt->handler(fmt, ap);
 				free(fmt);
 				/*if(!lst)
 					lst = create_format(&str), sizeof(t_format));
@@ -143,9 +144,22 @@ t_format	*create_format(char **str)
 	fmt->precision = get_precision(*str);
 	fmt->modifier = get_modifier(*str);
 	set_flags(*str, fmt);
-	/*while(**str && !ft_strchr(CONV, **str))
-		(*str)++;
-	(*str)++;*/
+	if (fmt->conversion == 'd' || fmt->conversion == 'i')
+		fmt->handler = &handle_int;
+	if (fmt->conversion == 'o')
+		fmt->handler = &handle_oct;
+	if (fmt->conversion == 'u')
+		fmt->handler = &handle_unsigned;
+	if (fmt->conversion == 'x' || fmt->conversion == 'X')
+		fmt->handler = &handle_hex;
+	if (fmt->conversion == 'c')
+		fmt->handler = &handle_char;
+	if (fmt->conversion == 's')
+		fmt->handler = &handle_str;
+	if (fmt->conversion == 'p')
+		fmt->handler = &handle_pointer;
+	if (fmt->conversion == 'f')
+		fmt->handler = &handle_float;
 	return (fmt);
 }
 
@@ -338,7 +352,9 @@ void print_format(t_format *fmt)
 int main(void)
 {
 	//t_list *lst;
-	ft_printf("abcd%- khhd", 129);
+	ft_printf("abcd%+ -10.5", 128);
+	//int return_of_printf = printf("slt mn pote: %10.13s, %d\n", "ccoucou la pute", 10);
+	//printf("Le printf precedent a retourné : %d\n", return_of_printf);
 	//printf("abcd%-+ 010.55llllld\nici:%d%3km1", 10, 20);
 	//lst = parse_format("%-+ 010.55llllld%+0120.49Lf");
 	//print_format(lst);
@@ -347,11 +363,13 @@ int main(void)
 int		ft_printf(const char *restrict format, ...)
 {
 	va_list		ap;
+	int length = 0;
+
 
 	va_start(ap, format);
 	parse_format((char *)format, ap);
 	va_end(ap);
-	return (0);
+	return (length);
 }
 
 /*void handle_flag(va_list list, const char *restrict format)

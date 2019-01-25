@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/25 12:06:56 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/25 20:26:40 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_format
 	char			zero;
 	char			space;
 	char			prefixe;
+	void			(*handler)(struct s_format *fmt, va_list ap);
 }				t_format;
 
 int				ft_printf(const char *restrict format, ...);
@@ -48,6 +49,14 @@ char	get_zero(char *str);
 char	get_space(char *str);
 int		ft_printf(const char *restrict format, ...);
 void	set_flags(char *str, t_format *fmt);
+void		handle_unsigned(t_format *fmt, va_list ap);
+void		handle_hex(t_format *fmt, va_list ap);
+void		handle_oct(t_format *fmt, va_list ap);
+void		handle_char(t_format *fmt, va_list ap);
+void		handle_int(t_format *fmt, va_list ap);
+void		handle_unsigned(t_format *fmt, va_list ap);
+void		handle_pointer(t_format *fmt, va_list ap);
+void		handle_float(t_format *fmt, va_list ap);
 void print_format(t_format *fmt); //remove
 
 #endif
