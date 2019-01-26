@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/25 20:26:38 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/26 19:41:53 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,44 +57,55 @@ void		handle_str(t_format *fmt, va_list ap)
 void		handle_float(t_format *fmt, va_list ap)
 {}
 #include <stdio.h>
+long long	get_number(t_format *fmt, va_list ap)
+{
+	if (fmt->conversion == 'd' || fmt->conversion == 'i')
+		if (fmt->modifier == HH)
+			return ((char) va_arg(ap, long long));
+		else if(fmt->modifier == H)
+			return ((short) va_arg(ap, long long));
+		else if (fmt->modifier == L || fmt->modifier == LL)
+			return (va_arg(ap, long long));
+		else
+			return (va_arg(ap, int));
+	else
+		if (fmt->modifier == HH)
+			return ((unsigned char) va_arg(ap, unsigned long long));
+		else if(fmt->modifier == H)
+			return ((unsigned short) va_arg(ap, unsigned long long));
+		else if (fmt->modifier == L || fmt->modifier == LL)
+			return (va_arg(ap, unsigned long long));
+		else
+			return (va_arg(ap, unsigned int));
+	return (0);
+}
 void		handle_int(t_format *fmt, va_list ap)
 {
-	int		i;
-	char *str;
-	char fill;
-	char *prec;
-	int		len;
+	long long	i;
+	char		*str;
+	int			len;
 
-
-	fill = fmt->zero ? fmt->zero : ' ';
-	if(fmt->modifier == HH)
-		i = (char) va_arg(ap, int);
-	else if (fmt->modifier == H)
-		i = (short) va_arg(ap, int);
-	else
-		i = va_arg(ap, int);
-	str = ft_itoa(i);
-	if ((fmt->plus || fmt->space) && i >= 0)
-		fmt->precision++;
-	//len = i < 0 ? fmt->width - fmt->precision - 1 : fmt->width - fmt->precision;
+	str = ft_itoa_base(get_number(fmt, ap), fmt->base, fmt->conversion > 96 ? 0 : 1);
+	if (*str == '-')
+		fmt->signe = *(str++);
 	fmt->precision-=ft_strlen(str);
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
-	prec = ft_strnew(fmt->precision);
-	ft_memset(prec, '0', fmt->precision);
-	prec[0] = fmt->space ? fmt->space : '0';
-	if (fmt->plus)
-		prec[0] = fmt->plus;
-	str = fmt->precision > 0 ? ft_strjoin(prec, str) : str;
+	len = fmt->width - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
 	if (fmt->minus)
-		ft_putstr(str);
-	len = fmt->width - ft_strlen(str);
-	while (len > 0)
 	{
-		ft_putchar(fill);
-		len--;
-	}
-	if (!fmt->minus)
+		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		ft_nputchar('0', fmt->precision);
 		ft_putstr(str);
+		ft_nputchar(' ', len);
+	}
+	else
+	{
+		fmt->zero ? NULL :ft_nputchar(' ', len);
+		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		fmt->zero ? ft_nputchar(fmt->zero, len) : NULL;
+		ft_nputchar('0', fmt->precision);
+		ft_putstr(str);
+	}
 }
 
 
@@ -139,27 +150,21 @@ t_format	*create_format(char **str)
 	t_format	*fmt;
 	if(!(fmt = (t_format *)malloc(sizeof(t_format))))
 		return (NULL);
-	fmt->conversion = get_conversion(*str);
+	set_conversion(*str, fmt);
 	fmt->width = get_width(*str);
 	fmt->precision = get_precision(*str);
 	fmt->modifier = get_modifier(*str);
 	set_flags(*str, fmt);
-	if (fmt->conversion == 'd' || fmt->conversion == 'i')
-		fmt->handler = &handle_int;
-	if (fmt->conversion == 'o')
-		fmt->handler = &handle_oct;
-	if (fmt->conversion == 'u')
-		fmt->handler = &handle_unsigned;
-	if (fmt->conversion == 'x' || fmt->conversion == 'X')
-		fmt->handler = &handle_hex;
 	if (fmt->conversion == 'c')
 		fmt->handler = &handle_char;
-	if (fmt->conversion == 's')
+	else if (fmt->conversion == 's')
 		fmt->handler = &handle_str;
-	if (fmt->conversion == 'p')
+	else if (fmt->conversion == 'p')
 		fmt->handler = &handle_pointer;
-	if (fmt->conversion == 'f')
+	else if (fmt->conversion == 'f')
 		fmt->handler = &handle_float;
+	else
+		fmt->handler = &handle_int;
 	return (fmt);
 }
 
@@ -167,7 +172,7 @@ void 	set_flags(char *str, t_format *fmt)
 {
 	fmt->zero = 0;
 	fmt->minus = 0;
-	fmt->plus = 0;
+	fmt->signe = 0;
 	fmt->prefixe = 0;
 	fmt->space = 0;
 	while (*str && !ft_strchr(CONV, *str))
@@ -179,7 +184,7 @@ void 	set_flags(char *str, t_format *fmt)
 		if (*str == '+')
 		{
 			fmt->space = 0;
-			fmt->plus = '+';
+			fmt->signe = '+';
 		}
 		if (*str == '-')
 			fmt->minus = '-';
@@ -203,15 +208,22 @@ int		check_conversion(char **str)
 	return(1);
 }
 
-char	get_conversion(char *str)
+void	set_conversion(char *str, t_format *fmt)
 {
 	while(*str)
 	{
 		if(ft_strchr(CONV, *str))
-			return (*str);
+		{
+			fmt->conversion = *str;
+			fmt->base = 10;
+			if (fmt->conversion == 'x' || fmt->conversion == 'X')
+				fmt->base = 16;
+			fmt->base = fmt->conversion == 'o' ? 8 : fmt->base;
+			return ;
+		}
 		str++;
 	}
-	return (0);
+	fmt->conversion = 0;
 }
 
 short	get_modifier(char *str)
@@ -347,12 +359,12 @@ void print_format(t_format *fmt)
 		printf(
 "maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %u\nmodifier: %hd\nplus: %c\nminus: %c\nzero: %c\nspace: %c",
 		i, fmt->conversion,
-		fmt->width, fmt->precision, fmt->modifier, fmt->plus, fmt->minus, fmt->zero, fmt->space);
+		fmt->width, fmt->precision, fmt->modifier, fmt->signe, fmt->minus, fmt->zero, fmt->space);
 }
 int main(void)
 {
 	//t_list *lst;
-	ft_printf("abcd%+ -10.5", 128);
+	printf("%010x", -15);
 	//int return_of_printf = printf("slt mn pote: %10.13s, %d\n", "ccoucou la pute", 10);
 	//printf("Le printf precedent a retourné : %d\n", return_of_printf);
 	//printf("abcd%-+ 010.55llllld\nici:%d%3km1", 10, 20);
