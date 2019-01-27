@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/26 19:41:53 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/27 02:59:58 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,24 @@
 	}
 	else
 	{*/
-
+#include <stdio.h>
 void		handle_char(t_format *fmt, va_list ap)
 {
+	char c;
 
+	c = (char) va_arg(ap, int);
+	if (fmt->minus)
+	{
+		ft_putchar(c);
+		ft_nputchar(' ', --fmt->width);
+	}
+	else
+	{
+		ft_nputchar(fmt->zero ? '0' : ' ', --fmt->width);
+		ft_putchar(c);
+	}
 }
+
 void		handle_oct(t_format *fmt, va_list ap)
 {
 
@@ -50,9 +63,24 @@ void		handle_unsigned(t_format *fmt, va_list ap)
 {}
 void		handle_pointer(t_format *fmt, va_list ap)
 {
+	handle_int(fmt, ap);
 }
 void		handle_str(t_format *fmt, va_list ap)
-{}
+{
+	char *str;
+
+	str = va_arg(ap, char*);
+	if (fmt->minus)
+	{
+		ft_putstr(str);
+		ft_nputchar(' ', fmt->width - ft_strlen(str));
+	}
+	else
+	{
+		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - ft_strlen(str));
+		ft_putstr(str);
+	}
+}
 
 void		handle_float(t_format *fmt, va_list ap)
 {}
@@ -73,35 +101,51 @@ long long	get_number(t_format *fmt, va_list ap)
 			return ((unsigned char) va_arg(ap, unsigned long long));
 		else if(fmt->modifier == H)
 			return ((unsigned short) va_arg(ap, unsigned long long));
-		else if (fmt->modifier == L || fmt->modifier == LL)
+		else if (fmt->modifier == L || fmt->modifier == LL
+			|| fmt->conversion == 'p')
 			return (va_arg(ap, unsigned long long));
 		else
 			return (va_arg(ap, unsigned int));
 	return (0);
 }
+void 	ft_print_prefixe(char c)
+{
+	c = c == 'p' ? 'x' : c;
+	if (c == 'o' || c == 'x' || c == 'X')
+		ft_putchar('0');
+	if (c == 'x' || c == 'X')
+		ft_putchar(c);
+}
+
 void		handle_int(t_format *fmt, va_list ap)
 {
 	long long	i;
 	char		*str;
 	int			len;
 
-	str = ft_itoa_base(get_number(fmt, ap), fmt->base, fmt->conversion > 96 ? 0 : 1);
+	str = ft_itoa_base(get_number(fmt, ap), fmt->base, !(fmt->conversion > 96));
+	if (fmt->conversion != 'p')
+		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
 	if (*str == '-')
 		fmt->signe = *(str++);
-	fmt->precision-=ft_strlen(str);
+	fmt->precision -= ft_strlen(str);
+	fmt->precision = fmt->prefixe == 1 ? fmt->precision - 1 : fmt->precision;
 	fmt->precision = fmt->precision < 0 ? 0 : fmt->precision;
+	//fmt->precision = fmt->prefixe == 1 ? fmt->precision - 1 : fmt->precision;
 	len = fmt->width - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
 	if (fmt->minus)
 	{
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		fmt->prefixe ? ft_print_prefixe(fmt->conversion): NULL;
 		ft_nputchar('0', fmt->precision);
 		ft_putstr(str);
-		ft_nputchar(' ', len);
+		ft_nputchar(' ', len - fmt->prefixe);
 	}
 	else
 	{
-		fmt->zero ? NULL :ft_nputchar(' ', len);
+		!fmt->zero ? ft_nputchar(' ', len - fmt->prefixe): NULL;
 		fmt->signe ? ft_putchar(fmt->signe) : NULL;
+		fmt->prefixe ? ft_print_prefixe(fmt->conversion) : NULL;
 		fmt->zero ? ft_nputchar(fmt->zero, len) : NULL;
 		ft_nputchar('0', fmt->precision);
 		ft_putstr(str);
@@ -177,28 +221,33 @@ void 	set_flags(char *str, t_format *fmt)
 	fmt->space = 0;
 	while (*str && !ft_strchr(CONV, *str))
 	{
-		if (*str == '0' && !ft_isdigit(*(str - 1)) && !fmt->precision)
+		if (*str == '0' && !ft_isdigit(*(str - 1)))
 			fmt->zero = '0';
-		if (*str == ' ')
+		if (*str == ' ' && ft_strchr("dif", fmt->conversion))
 			fmt->space = ' ';
-		if (*str == '+')
+		if (*str == '+' && ft_strchr("dif", fmt->conversion))
 		{
 			fmt->space = 0;
 			fmt->signe = '+';
 		}
 		if (*str == '-')
 			fmt->minus = '-';
-		if (*str == '#')
-			fmt->prefixe = '#';
+		if (*str == '#' && fmt->conversion == 'o')
+			fmt->prefixe = 1;
+		if ((*str == '#' && (fmt->conversion == 'x' || fmt->conversion == 'X'))
+			|| fmt->conversion == 'p')
+			fmt->prefixe = 2;
 		str++;
 	}
+	if(ft_strchr("diouxX", fmt->conversion) && fmt->precision)
+		fmt->zero = 0;
 }
 int		check_conversion(char **str)
 {
 	(*str)++;
 	while(**str && !ft_strchr(CONV, **str))
 	{
-		if(!ft_strchr("-+ 0lLh.", **str) && !ft_isdigit(**str))
+		if(!ft_strchr("-+ #0lLh.", **str) && !ft_isdigit(**str))
 			return (0);
 		(*str)++;
 	}
@@ -216,7 +265,8 @@ void	set_conversion(char *str, t_format *fmt)
 		{
 			fmt->conversion = *str;
 			fmt->base = 10;
-			if (fmt->conversion == 'x' || fmt->conversion == 'X')
+			if (fmt->conversion == 'x' || fmt->conversion == 'X'
+				|| fmt->conversion == 'p')
 				fmt->base = 16;
 			fmt->base = fmt->conversion == 'o' ? 8 : fmt->base;
 			return ;
@@ -357,14 +407,20 @@ void print_format(t_format *fmt)
 
 	i = 1;
 		printf(
-"maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %u\nmodifier: %hd\nplus: %c\nminus: %c\nzero: %c\nspace: %c",
+"maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %u\nmodifier: %hd\nplus: %c\nminus: %c\nzero: %c\nspace: %c\nprefixe: %hhd\n",
 		i, fmt->conversion,
-		fmt->width, fmt->precision, fmt->modifier, fmt->signe, fmt->minus, fmt->zero, fmt->space);
+		fmt->width, fmt->precision, fmt->modifier, fmt->signe, fmt->minus, fmt->zero, fmt->space, fmt->prefixe);
 }
 int main(void)
 {
 	//t_list *lst;
-	printf("%010x", -15);
+	char *c = NULL;
+	char b = 'l';
+	unsigned int u= 4294967295;
+	printf("%#-o\n",   8);
+	ft_printf("%#-o\n",   8);
+	ft_printf("%10p\n",   c);
+	printf("%10p\n",  c);
 	//int return_of_printf = printf("slt mn pote: %10.13s, %d\n", "ccoucou la pute", 10);
 	//printf("Le printf precedent a retourné : %d\n", return_of_printf);
 	//printf("abcd%-+ 010.55llllld\nici:%d%3km1", 10, 20);
