@@ -6,16 +6,17 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/30 02:26:57 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/30 22:51:17 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*ft_ftoa(double d, int precision)
+char	*ft_ftoa(long double d, int precision)
 {
 	long long	temp;
-	int i;
+	int			i;
 	long long	save;
 	char		*str;
 

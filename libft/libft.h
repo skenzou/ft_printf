@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 13:56:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/30 01:26:28 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/30 15:04:12 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 char			*ft_itoa_base(long long nb, int base, int uppercase);
-char			*ft_ftoa(double d, int precision);
+char			*ft_ftoa(long double d, int precision);
 typedef struct	s_list
 {
 	void			*content;
