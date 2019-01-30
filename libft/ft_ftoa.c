@@ -6,39 +6,32 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/29 20:09:29 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/30 02:26:57 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
 char	*ft_ftoa(double d, int precision)
 {
 	long long	temp;
-	long long	c;
+	int i;
 	long long	save;
 	char		*str;
 
 	save = d;
 	d -= save;
-	c = 0;
-	temp = 0;
-	str =
+	i = 0;
+	str = (char *)malloc(sizeof(char) * (precision + 1));
+	str[precision] = '\0';
+	d = d < 0 ? -d : d;
 	while (precision-- > 0)
 	{
-		// c *= 10;
-		// d *= 10.0;
-		// c += temp;
-		// temp = d;
-		// d -= temp;
-		c *= 10;
 		d *= 10.0;
 		temp = d;
-		c += temp;
+		str[i++] = temp + 48;
 		d -= temp;
-
 	}
-	str = ft_strjoin(ft_strjoin(ft_itoa(save), "."), ft_itoa(c));
+	str = ft_strjoin(ft_strjoin(ft_itoa(save), "."), str);
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/29 20:10:40 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/01/30 02:35:39 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,14 @@ void		handle_str(t_format *fmt, va_list ap)
 
 void		handle_float(t_format *fmt, va_list ap)
 {
-	// double d;
-	// char *str;
-	//
-	// d = va_arg(ap, double);
-	// str = ft_ftoa(d, fmt->precisiona)
+	/*double d;
+	char *str;
+
+	d = va_arg(ap, double);
+ 	str = ft_ftoa(d, fmt->precision);
+	ft_putstr(str);
+	fmt->precision = 0;*/
+	handle_numbers(fmt, ap);
 }
 
 long long	get_number(t_format *fmt, va_list ap)
@@ -117,7 +120,13 @@ void		handle_numbers(t_format *fmt, va_list ap)
 	char		*str;
 	int			len;
 
-	str = ft_itoa_base(get_number(fmt, ap), fmt->base, !(fmt->conversion > 96));
+	if (fmt->conversion == 'f')
+	{
+		str = ft_ftoa(va_arg(ap, double), fmt->precision);
+		fmt->precision = 0;
+	}
+	else
+		str = ft_itoa_base(get_number(fmt, ap), fmt->base, !(fmt->conversion > 96));
 	str == NULL ? exit(1) : NULL;
 	if (fmt->conversion != 'p')
 		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
@@ -129,7 +138,7 @@ void		handle_numbers(t_format *fmt, va_list ap)
 	len = fmt->width - ft_strlen(str) - (fmt->signe ? 1 : 0) - fmt->precision;
 	len -= fmt->prefixe;
 	print_numbers(fmt, str, len);
-	free(str);
+	fmt->signe == '-' ? free(--str) : free(str);
 }
 
 t_list		*parse_format(char *str, va_list ap)
@@ -353,11 +362,10 @@ int main(void)
 	//printf(" retour de printf: %d\n", i);
 	//printf("%10p\n",  c);
 	//ft_printf("%10p\n",   c);
-	double xd = 15588.878;
+	double xd = 54654.4941;
 	float lol = 18.6;
-	ft_putstr(ft_ftoa(xd, 25));
-	ft_putendl("");
-	printf("%.25lf\n", xd);
+	ft_printf("%-20.1lf\n", xd);
+	printf("%-20.1lf	\n", xd);
 	//printf("xdddd\n");
 	//ft_ftoa(lol, 10);
 
