@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/30 22:51:13 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:26:25 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ int		handle_str(t_format *fmt, va_list ap)
 	int		ret;
 
 	str = va_arg(ap, char*);
-	if (fmt->precision && ((size_t)fmt->precision < ft_strlen(str)))
+	str = !str ? ft_strdup("(null)") : str;
+	if (fmt->precision >= 0 && ((size_t)fmt->precision < ft_strlen(str)))
 	{
 		str = ft_strsub(str, 0, (size_t)fmt->precision);
-		fmt->precision = -1;
+		fmt->precision = -5;
 	}
 	str == NULL ? exit(1) : NULL;
 	ret = ft_strlen(str);
@@ -54,7 +55,7 @@ int		handle_str(t_format *fmt, va_list ap)
 		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - ret);
 		ft_putstr(str);
 	}
-	if (fmt->precision < 0)
+	if (fmt->precision == -5)
 		ft_strdel(&str);
 	return (ret + fmt->width);
 }
@@ -145,6 +146,11 @@ int		handle_numbers(t_format *fmt, va_list ap)
 	else
 		str = ft_itoa_base(get_number(fmt, ap), fmt->base, !(fmt->conversion > 96));
 	str == NULL ? exit(1) : NULL;
+	if (!fmt->precision && str[0] == '0' && fmt->conversion != 'f')
+	{
+		fmt->prefixe = fmt->conversion != 'o' ? 0 : fmt->prefixe;
+		str[0] = '\0';
+	}
 	if (fmt->conversion != 'p')
 		fmt->prefixe = *str == '0' ? 0 : fmt->prefixe;
 	if (*str == '-')
@@ -197,8 +203,9 @@ t_format	*create_format(char *str)
 		return (NULL);
 	set_conversion(str, fmt);
 	fmt->width = get_width(str);
-	fmt->precision = get_precision(str);
-	if (!fmt->precision && fmt->conversion == 'f')
+	fmt->precision = get_precision(str, fmt);
+	if (!fmt->precision && fmt->conversion == 'f'
+		&& !ft_strchr(str, '.'))
 		fmt->precision = 6;
 	fmt->modifier = get_modifier(str);
 	set_flags(str, fmt);
@@ -221,7 +228,7 @@ void	set_flags(char *str, t_format *fmt)
 	fmt->prefixe = 0;
 	while (*str && !ft_strchr(CONV, *str))
 	{
-		if (*str == '0' && !ft_isdigit(*(str - 1)))
+		if (*str == '0' && !ft_isdigit(*(str - 1)) && *(str - 1) != '.')
 			fmt->zero = '0';
 		if (*str == ' ' && !fmt->signe && ft_strchr("dif", fmt->conversion))
 			fmt->signe = ' ';
@@ -300,15 +307,18 @@ short	get_modifier(char *str)
 	return (0);
 }
 
-int		get_precision(char *str)
+int		get_precision(char *str, t_format *fmt)
 {
 	int precision;
+	int point;
 
 	precision = 0;
+	point = 0;
 	while (*str && !ft_strchr(CONV, *str))
 	{
 		if (*str == '.')
 		{
+			point = 1;
 			precision = 0;
 			str++;
 			while (ft_isdigit(*str))
@@ -321,6 +331,10 @@ int		get_precision(char *str)
 		}
 		str++;
 	}
+	if (!point)
+		precision = -1;
+	if (!point && fmt->conversion == 'f')
+		fmt->precision = 6;
 	return (precision);
 }
 
@@ -369,7 +383,7 @@ void	print_format(t_format *fmt)
 #include <float.h>
 
 
-int main(void)
+/*int main(void)
 {
 	//t_list *lst;
 	//char *c = NULL;
@@ -384,22 +398,23 @@ int main(void)
 	//printf(" retour de printf: %d\n", i);
 	//printf("%10p\n",  c);
 	//ft_printf("%10p\n",   c);
-	//long double xd = DBL_MAX;
-	double lol = 18.6312341234;
+	//long double xd = LDBL_MAX;
+	//double lol = 18.6312341234;
 	//void *c = "aa";
-	int i, j;
+	//int i, j;
+	double num = 126.999;
 	//j = ft_printf("%10.2s\n", "coucou");
-	j = ft_printf("%010.d\n", 10);
-	i = printf("%010.d\n", 10);
-	printf("retour du printf man: %d\n", i);
-	printf("retour de mon printf: %d\n", j);
+	ft_printf("|%24.13l14d|\n", 10);
+    printf("|%24.13l14d|\n", 10);
+	//printf("retour du printf man: %d\n", i);
+	//printf("retour de mon printf: %d\n", j);
 	//ft_printf("%-20lf\n", xd);
 	//printf("%-20Lf	\n", xd);
 	//printf("xdddd\n");
 	//ft_ftoa(lol, 10);
 
 	return (0);
-}
+}*/
 
 int		ft_printf(const char *restrict format, ...)
 {

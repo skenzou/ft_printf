@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/30 22:51:21 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:26:30 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			parse_format(char *str, va_list ap);
 int			check_conversion(char **str);
 void		set_conversion(char *str, t_format *fmt);
 short		get_modifier(char *str);
-int			get_precision(char *str);
+int			get_precision(char *str, t_format *fmt);
 int			get_width(char *str);
 short		get_signe(char *str);
 char		get_zero(char *str);

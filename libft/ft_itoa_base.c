@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 17:18:31 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/26 17:06:12 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:26:35 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_itoa_base(long long nb, int base, int uppercase)
 	if (base == 10)
 		return (ft_itoa(nb));
 	if (nb == 0)
-		return ("0");
+		return (ft_strdup("0"));
 	tmp = nb;
 	while (tmp > 0 && ++len)
 		tmp /= base;

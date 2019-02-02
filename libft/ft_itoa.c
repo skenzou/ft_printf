@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 12:38:34 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/26 14:22:59 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:26:33 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ char	*ft_itoa(long long n)
 	char		*str;
 
 	if (n == 0)
-		return ("0");
+		return (ft_strdup("0"));
+	if (n < -9223372036854775807)
+		return (ft_strdup("-9223372036854775808"));
 	len = 0;
 	tmp = n < 0 ? -n : n;
 	while (tmp > 0 && ++len)
