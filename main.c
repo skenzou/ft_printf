@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:19:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/02 22:26:27 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/03 00:22:59 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ int main (void)
 //ft_printf("%.4f\n", num);
 //printf("%.4f\n", num);
 	//printf("%5%");
-	ft_printf("@moulitest: %#.o\n", 0);
-	printf("@moulitest: %#.o\n", 0);
+	int i;
+	int j;
+	i = ft_printf("%1c\n", 42);
+	j = printf("%1c\n", 42);
+	printf("valeur de retour de mon ptf: %d\n", i);
+	printf("valeur de retour du printf stdio: %d\n", j);
 	//printf("string: |%%%%%%|\n");
 	//ft_printf("string: |%%%%%%|\n");
 

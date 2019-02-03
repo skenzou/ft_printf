@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/02 22:26:25 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/03 02:59:48 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int		handle_char(t_format *fmt, va_list ap)
 	if (fmt->minus)
 	{
 		ft_putchar(c);
-		ft_nputchar(' ', --fmt->width);
+		ft_nputchar(' ', fmt->width - 1);
 	}
 	else
 	{
-		ft_nputchar(fmt->zero ? '0' : ' ', --fmt->width);
+		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - 1);
 		ft_putchar(c);
 	}
 	return (fmt->width > 0 ? fmt->width : 1);
@@ -57,7 +57,7 @@ int		handle_str(t_format *fmt, va_list ap)
 	}
 	if (fmt->precision == -5)
 		ft_strdel(&str);
-	return (ret + fmt->width);
+	return (ret < fmt->width ? fmt->width : ret);
 }
 
 long long	get_number(t_format *fmt, va_list ap)

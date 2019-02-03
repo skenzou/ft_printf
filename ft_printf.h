@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/02 22:26:30 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/03 02:59:41 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 typedef struct	s_format
 {
 	char			conversion;
-	unsigned int	width;
+	int				width;
 	int				precision;
 	short			modifier;
 	char			signe;
