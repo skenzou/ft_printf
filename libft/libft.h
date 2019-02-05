@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 13:56:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/01/30 15:04:12 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/05 21:07:29 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <limits.h>
+# define ABS(x) ((x < 0) ? -x : x)
 # define BUFF_SIZE 32
 # define FD_MAX OPEN_MAX
 
@@ -78,6 +79,8 @@ void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 char			*ft_itoa_base(long long nb, int base, int uppercase);
 char			*ft_ftoa(long double d, int precision);
+char			*ft_utoa_base(unsigned long long nb,
+				unsigned base, int uppercase);
 typedef struct	s_list
 {
 	void			*content;

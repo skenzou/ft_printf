@@ -6,29 +6,67 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:19:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/03 00:22:59 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/05 23:42:12 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <limits.h>
 
 int main (void)
 {
-	double num = 9.146555553;
+	//double num = 9.146555553;
+	//unsigned long u_max= 8446744073709551615;
 //ft_printf("%.4f\n", num);
 //printf("%.4f\n", num);
 	//printf("%5%");
 	int i;
 	int j;
-	i = ft_printf("%1c\n", 42);
-	j = printf("%1c\n", 42);
+//	int x = 10000;
+	unsigned long long u = 0;
+
+	//ft_utoa_base(ULONG_MAX, 10, 0);
+	//printf("%s\n", ft_itoa_base(u_max, 10, 0));
+	i = ft_printf("{%llu}\n", ULONG_MAX);
+	j = printf("[%llu]\n", ULONG_MAX);
 	printf("valeur de retour de mon ptf: %d\n", i);
 	printf("valeur de retour du printf stdio: %d\n", j);
+	//-fsanitize=address
+
+	// i = ft_printf("a%ob%oc%od\n",0, 55555, 100000);
+	// j = printf("a%ob%oc%od\n", 0, 55555, 100000);
+	// ft_printf("%o%o%o%o%o\n",1, 100, 999, 42, 999988888);
+	// ft_printf("before %o after\n", 42);
+	// printf("before %o after\n", 42);
+	// printf("%o%o%o%o%o\n",1, 100, 999, 42, 999988888);
+
 	//printf("string: |%%%%%%|\n");
 	//ft_printf("string: |%%%%%%|\n");
+	/*char *str_ = "|%+0.1f|\n";
+	double n = 3.944545454;
+	double n_ = -3.944545454;
+	printf(str_, n);
+	ft_printf(str_, n);
+	printf(str_, n_);
+	ft_printf(str_, n_);
+	ft_putchar('\n');
+	char *str = "|%+0.1d|\n";
+	long long int nb = 96529;
+	long long nb_ = 96529;
+	printf(str, nb);
+	ft_printf(str, nb);
+	printf(str, nb_);
+	ft_printf(str, nb_);*/
+
+
+
+
 
 	//printf("%10s is a string", "this");
+
+
+
 }
 
 /*long double    ft_round(long double fl, long precision)

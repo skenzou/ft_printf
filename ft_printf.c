@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/03 02:59:48 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/05 23:42:22 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,22 @@ int		handle_str(t_format *fmt, va_list ap)
 	return (ret < fmt->width ? fmt->width : ret);
 }
 
-long long	get_number(t_format *fmt, va_list ap)
+long long	get_signed(t_format *fmt, va_list ap)
 {
-	if (fmt->conversion == 'd' || fmt->conversion == 'i')
-		if (fmt->modifier == HH)
-			return ((char)va_arg(ap, long long));
-		else if (fmt->modifier == H)
-			return ((short)va_arg(ap, long long));
-		else if (fmt->modifier == L || fmt->modifier == LL)
-			return (va_arg(ap, long long));
-		else
-			return (va_arg(ap, int));
-	else if (fmt->modifier == HH)
+	if (fmt->modifier == HH)
+		return ((char)va_arg(ap, long long));
+	else if (fmt->modifier == H)
+		return ((short)va_arg(ap, long long));
+	else if (fmt->modifier == L || fmt->modifier == LL)
+		return (va_arg(ap, long long));
+	else
+		return (va_arg(ap, int));
+	return (0);
+}
+
+unsigned long long	get_unsigned(t_format *fmt, va_list ap)
+{
+	if (fmt->modifier == HH)
 		return ((unsigned char)va_arg(ap, unsigned long long));
 	else if (fmt->modifier == H)
 		return ((unsigned short)va_arg(ap, unsigned long long));
@@ -130,11 +134,11 @@ int	print_numbers(t_format *fmt, char *str, int len)
 	return (ret + ft_strlen(str) + len + fmt->precision + (fmt->signe != 0));
 }
 
-int		handle_numbers(t_format *fmt, va_list ap)
+char	*get_string(t_format *fmt, va_list ap)
 {
-	char		*str;
-	int			len;
+	char *str;
 
+	str = NULL;
 	if (fmt->conversion == 'f')
 	{
 		if (fmt->modifier == LU)
@@ -143,9 +147,20 @@ int		handle_numbers(t_format *fmt, va_list ap)
 			str = ft_ftoa(va_arg(ap, double), fmt->precision);
 		fmt->precision = 0;
 	}
+	else if (fmt->conversion == 'd' || fmt->conversion == 'i')
+		str = ft_itoa_base(get_signed(fmt, ap), fmt->base, !(fmt->conversion > 96));
 	else
-		str = ft_itoa_base(get_number(fmt, ap), fmt->base, !(fmt->conversion > 96));
+		str = ft_utoa_base(get_unsigned(fmt, ap), fmt->base, !(fmt->conversion > 96));
 	str == NULL ? exit(1) : NULL;
+	return (str);
+}
+
+int		handle_numbers(t_format *fmt, va_list ap)
+{
+	char		*str;
+	int			len;
+
+	str = get_string(fmt, ap);
 	if (!fmt->precision && str[0] == '0' && fmt->conversion != 'f')
 	{
 		fmt->prefixe = fmt->conversion != 'o' ? 0 : fmt->prefixe;
@@ -204,10 +219,8 @@ t_format	*create_format(char *str)
 	set_conversion(str, fmt);
 	fmt->width = get_width(str);
 	fmt->precision = get_precision(str, fmt);
-	if (!fmt->precision && fmt->conversion == 'f'
-		&& !ft_strchr(str, '.'))
-		fmt->precision = 6;
-	fmt->modifier = get_modifier(str);
+	if (!fmt->modifier)
+		fmt->modifier = get_modifier(str);
 	set_flags(str, fmt);
 	if (ft_strchr("diouxX", fmt->conversion) && ft_strchr(str, '.'))
 		fmt->zero = 0;
@@ -261,11 +274,17 @@ int		check_conversion(char **str)
 
 void	set_conversion(char *str, t_format *fmt)
 {
+	fmt->modifier = 0;
 	while (*str)
 	{
 		if (ft_strchr(CONV, *str))
 		{
 			fmt->conversion = *str;
+			if (ft_strchr("DOU", fmt->conversion))
+			{
+				fmt->modifier = L;
+				fmt->conversion = ft_tolower(fmt->conversion);
+			}
 			fmt->base = 10;
 			if (fmt->conversion == 'x' || fmt->conversion == 'X'
 				|| fmt->conversion == 'p')
@@ -334,13 +353,14 @@ int		get_precision(char *str, t_format *fmt)
 	if (!point)
 		precision = -1;
 	if (!point && fmt->conversion == 'f')
-		fmt->precision = 6;
+		precision = 6;
 	return (precision);
 }
 
 int		get_width(char *str)
 {
 	int width;
+	int temp;
 
 	width = 0;
 	while (*str && !ft_strchr(CONV, *str))
@@ -354,12 +374,13 @@ int		get_width(char *str)
 		}
 		if (ft_isdigit(*str))
 		{
-			width = 0;
+			temp = 0;
 			while (ft_isdigit(*str))
 			{
-				width *= 10;
-				width = width + (*(str++) - 48);
+				temp *= 10;
+				temp += (*(str++) - 48);
 			}
+			width = temp ? temp : width;
 			continue;
 		}
 		str++;
