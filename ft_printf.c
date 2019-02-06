@@ -6,12 +6,31 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 15:49:51 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:43:46 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+
+int		handle_percent(t_format *fmt, va_list ap)
+{
+	char	c;
+
+	(void)ap;
+	c = '%';
+	if (fmt->minus)
+	{
+		ft_putchar(c);
+		ft_nputchar(' ', fmt->width - 1);
+	}
+	else
+	{
+		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - 1);
+		ft_putchar(c);
+	}
+	return (fmt->width > 0 ? fmt->width : 1);
+}
 
 int		handle_char(t_format *fmt, va_list ap)
 {
@@ -197,18 +216,12 @@ int		parse_format(char *str, va_list ap)
 	ret = 0;
 	while (*str)
 	{
-		if (*str == '%' && *(str + 1) != '%')
+		if (*str == '%')
 		{
-			fmt = create_format(str);
+			fmt = create_format(++str);
 			if (check_conversion(&str))
 				ret += fmt->handler(fmt, ap);
 			free(fmt);
-		}
-		else if (*str == '%' && *(str + 1) == '%')
-		{
-			write(1, str, 1);
-			str += 2;
-			ret++;
 		}
 		else
 		{
@@ -237,6 +250,8 @@ t_format	*create_format(char *str)
 		fmt->handler = &handle_char;
 	else if (fmt->conversion == 's')
 		fmt->handler = &handle_str;
+	else if (fmt->conversion == '%')
+		fmt->handler = &handle_percent;
 	else
 		fmt->handler = &handle_numbers;
 	return (fmt);
@@ -268,7 +283,6 @@ void	set_flags(char *str, t_format *fmt)
 
 int		check_conversion(char **str)
 {
-	(*str)++;
 	while (**str && !ft_strchr(CONV, **str))
 	{
 		if (!ft_strchr("-+ #0lLhzj.", **str) && !ft_isdigit(**str))
@@ -413,8 +427,8 @@ void	print_format(t_format *fmt)
 
 	i = 1;
 	printf(
-"maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %u\nmodifier: \
-%hd\nplus: %c\nminus: %c\nzero: %c\nprefixe: %hhd\n",
+"maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %d\nmodifier: \
+%hd\nplus: %hhd\nminus: %hhd\nzero: %hhd\nprefixe: %hhd\n",
 		i, fmt->conversion,
 		fmt->width, fmt->precision, fmt->modifier, fmt->signe, fmt->minus,
 		fmt->zero, fmt->prefixe);

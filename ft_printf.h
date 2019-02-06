@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 15:43:35 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:07:23 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
-# define CONV "diouxXcspfDOU"
+# define CONV "diouxXcspfDOU%"
 # define H 1
 # define HH	2
 # define L	3

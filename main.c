@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:19:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 15:48:08 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 16:28:31 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int main (void)
 	//ft_utoa_base(ULONG_MAX, 10, 0);
 	//printf("%s\n", ft_itoa_base(u_max, 10, 0));
 	//ft_printf("%#x\n", 0);
-
-	i = ft_printf("%ju\n", ULLONG_MAX);
-	j = printf("%ju\n", ULLONG_MAX);
+	i = 0;
+	i = ft_printf("j%%\n");
+	j = printf("j%%\n") ;
 	//ft_printf("%#o\n", 0);
 	//printf("%#o\n", 0);
 	//ft_printf("%.#x\n", 0);
