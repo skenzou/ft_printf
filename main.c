@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:19:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 23:42:12 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 01:36:44 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,18 @@ int main (void)
 	int j;
 //	int x = 10000;
 	unsigned long long u = 0;
-
+	char *str;
+	str ="aha";
 	//ft_utoa_base(ULONG_MAX, 10, 0);
 	//printf("%s\n", ft_itoa_base(u_max, 10, 0));
-	i = ft_printf("{%llu}\n", ULONG_MAX);
-	j = printf("[%llu]\n", ULONG_MAX);
-	printf("valeur de retour de mon ptf: %d\n", i);
-	printf("valeur de retour du printf stdio: %d\n", j);
+	ft_printf("%#x\n", 0);
+	printf("%#x\n", 0);
+	//ft_printf("%#o\n", 0);
+	//printf("%#o\n", 0);
+	//ft_printf("%.#x\n", 0);
+	//printf("%.#x\n", 0);
+	//printf("valeur de retour de mon ptf: %d\n", i);
+	//printf("valeur de retour du printf stdio: %d\n", j);
 	//-fsanitize=address
 
 	// i = ft_printf("a%ob%oc%od\n",0, 55555, 100000);

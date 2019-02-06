@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 23:42:22 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 02:57:33 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,8 @@ int		handle_numbers(t_format *fmt, va_list ap)
 	str = get_string(fmt, ap);
 	if (!fmt->precision && str[0] == '0' && fmt->conversion != 'f')
 	{
-		fmt->prefixe = fmt->conversion != 'o' ? 0 : fmt->prefixe;
+		if (fmt->conversion == 'x' || fmt->conversion == 'X')
+			fmt->prefixe = 0;
 		str[0] = '\0';
 	}
 	if (fmt->conversion != 'p')
