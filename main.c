@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:19:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 16:28:31 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 23:18:57 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,19 @@ int main (void)
 	int i;
 	int j;
 //	int x = 10000;
-	size_t u = 5;
+	//size_t u = 5;
+	//char t = 2345;
+	int d = 14356;
 	char *str;
-	str ="aha";
+	str =NULL;
 	//ft_utoa_base(ULONG_MAX, 10, 0);
 	//printf("%s\n", ft_itoa_base(u_max, 10, 0));
 	//ft_printf("%#x\n", 0);
 	i = 0;
-	i = ft_printf("j%%\n");
-	j = printf("j%%\n") ;
+	// i = ft_printf("%*.*d\n", 0, 3, 0);
+	// j = printf("%*.*d\n", 0, 3, 0);
+	i = ft_printf("%s\n", str);
+	j = printf("%s\n", str);
 	//ft_printf("%#o\n", 0);
 	//printf("%#o\n", 0);
 	//ft_printf("%.#x\n", 0);

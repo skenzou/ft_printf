@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 16:07:23 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 23:25:52 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft/libft.h"
 # include <stdarg.h>
-# define CONV "diouxXcspfDOU%"
+# define CONV "diouxXcspfDOUb%"
 # define H 1
 # define HH	2
 # define L	3
@@ -39,13 +39,13 @@ typedef struct	s_format
 }				t_format;
 
 int					ft_printf(const char *restrict format, ...);
-t_format			*create_format(char *str);
+t_format			*create_format(char *str, va_list ap);
 int					parse_format(char *str, va_list ap);
 int					check_conversion(char **str);
 void				set_conversion(char *str, t_format *fmt);
 short				get_modifier(char *str);
-int					get_precision(char *str, t_format *fmt);
-int					get_width(char *str);
+int					get_precision(char *str, t_format *fmt, va_list ap);
+int					get_width(char *str, va_list ap, t_format *fmt);
 short				get_signe(char *str);
 char				get_zero(char *str);
 char				get_space(char *str);
