@@ -6,17 +6,17 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 15:27:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 23:41:41 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:45:52 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_utoa_base(unsigned long long nb, unsigned base, int uppercase)
+char	*ft_utoa_base(uintmax_t nb, unsigned base, int uppercase)
 {
-	int					len;
-	unsigned long long	tmp;
-	char				*str;
+	int			len;
+	uintmax_t	tmp;
+	char		*str;
 
 	len = 1;
 	tmp = nb;

@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 23:41:32 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:43:35 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define L	3
 # define LL	4
 # define LU	5
+# define Z	6
+# define J  7
 
 typedef struct	s_format
 {
@@ -52,8 +54,8 @@ void				set_flags(char *str, t_format *fmt);
 int					handle_char(t_format *fmt, va_list ap);
 int					handle_numbers(t_format *fmt, va_list ap);
 int					handle_str(t_format *fmt, va_list ap);
-long long			get_signed(t_format *fmt, va_list ap);
-unsigned long long	get_unsigned(t_format *fmt, va_list ap);
+intmax_t			get_signed(t_format *fmt, va_list ap);
+uintmax_t			get_unsigned(t_format *fmt, va_list ap);
 int					print_numbers(t_format *fmt, char *str, int len);
 void				print_format(t_format *fmt);
 char				*get_string(t_format *fmt, va_list ap);

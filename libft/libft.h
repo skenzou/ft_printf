@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 13:56:36 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 21:07:29 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:47:25 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
-char			*ft_itoa(long long n);
-char			*ft_itoa_base(long long nb, int base, int uppercase);
+char			*ft_itoa(intmax_t n);
 void			ft_putchar(char c);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
@@ -77,9 +76,9 @@ void			ft_nputchar(char c, int n);
 void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
-char			*ft_itoa_base(long long nb, int base, int uppercase);
+char			*ft_itoa_base(intmax_t nb, int base, int uppercase);
 char			*ft_ftoa(long double d, int precision);
-char			*ft_utoa_base(unsigned long long nb,
+char			*ft_utoa_base(uintmax_t nb,
 				unsigned base, int uppercase);
 typedef struct	s_list
 {

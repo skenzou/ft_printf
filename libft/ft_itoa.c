@@ -6,13 +6,13 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 12:38:34 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/05 16:49:10 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:45:01 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(long long n)
+char	*ft_itoa(intmax_t n)
 {
 	char *nb;
 

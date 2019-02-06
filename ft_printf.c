@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 02:57:33 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:49:51 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		handle_str(t_format *fmt, va_list ap)
 	return (ret < fmt->width ? fmt->width : ret);
 }
 
-long long	get_signed(t_format *fmt, va_list ap)
+intmax_t	get_signed(t_format *fmt, va_list ap)
 {
 	if (fmt->modifier == HH)
 		return ((char)va_arg(ap, long long));
@@ -68,12 +68,16 @@ long long	get_signed(t_format *fmt, va_list ap)
 		return ((short)va_arg(ap, long long));
 	else if (fmt->modifier == L || fmt->modifier == LL)
 		return (va_arg(ap, long long));
+	else if (fmt->modifier == Z)
+		return (va_arg(ap, size_t));
+	else if (fmt->modifier == J)
+		return (va_arg(ap, intmax_t));
 	else
 		return (va_arg(ap, int));
 	return (0);
 }
 
-unsigned long long	get_unsigned(t_format *fmt, va_list ap)
+uintmax_t	get_unsigned(t_format *fmt, va_list ap)
 {
 	if (fmt->modifier == HH)
 		return ((unsigned char)va_arg(ap, unsigned long long));
@@ -82,6 +86,10 @@ unsigned long long	get_unsigned(t_format *fmt, va_list ap)
 	else if (fmt->modifier == L || fmt->modifier == LL
 			|| fmt->conversion == 'p')
 		return (va_arg(ap, unsigned long long));
+	else if (fmt->modifier == Z)
+		return (va_arg(ap, size_t));
+	else if (fmt->modifier == J)
+		return (va_arg(ap, uintmax_t));
 	else
 		return (va_arg(ap, unsigned int));
 	return (0);
@@ -263,7 +271,7 @@ int		check_conversion(char **str)
 	(*str)++;
 	while (**str && !ft_strchr(CONV, **str))
 	{
-		if (!ft_strchr("-+ #0lLh.", **str) && !ft_isdigit(**str))
+		if (!ft_strchr("-+ #0lLhzj.", **str) && !ft_isdigit(**str))
 			return (0);
 		(*str)++;
 	}
@@ -303,19 +311,29 @@ short	get_modifier(char *str)
 	int lcount;
 	int hcount;
 	int lucount;
+	int zcount;
+	int jcount;
 
 	lcount = 0;
 	hcount = 0;
 	lucount = 0;
+	zcount = 0;
+	jcount = 0;
 	while (*str && !ft_strchr(CONV, *str))
 	{
 		hcount = *str == 'h' ? hcount + 1 : hcount;
 		lcount = *str == 'l' ? lcount + 1 : lcount;
 		lucount = *str == 'L' ? lucount + 1 : lucount;
+		zcount = *str == 'z' ? zcount + 1 : zcount;
+		jcount = *str == 'j' ? jcount + 1 : jcount;
 		str++;
 	}
 	if (*str == 'f' && lucount)
 		return (LU);
+	if (jcount)
+		return (J);
+	if (zcount)
+		return (Z);
 	if (lcount && lcount % 2)
 		return (L);
 	if (lcount)
