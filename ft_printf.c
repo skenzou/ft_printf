@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 23:20:34 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:06:09 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,13 @@ intmax_t	get_signed(t_format *fmt, va_list ap)
 
 uintmax_t	get_unsigned(t_format *fmt, va_list ap)
 {
-	if (fmt->modifier == HH)
-		return ((unsigned char)va_arg(ap, unsigned long long));
-	else if (fmt->modifier == H)
-		return ((unsigned short)va_arg(ap, unsigned long long));
-	else if (fmt->modifier == L || fmt->modifier == LL
+	if (fmt->modifier == L || fmt->modifier == LL
 			|| fmt->conversion == 'p')
 		return (va_arg(ap, unsigned long long));
+	else if (fmt->modifier == H)
+		return ((unsigned short)va_arg(ap, unsigned long long));
+	else if (fmt->modifier == HH)
+		return ((unsigned char)va_arg(ap, unsigned long long));
 	else if (fmt->modifier == Z)
 		return (va_arg(ap, size_t));
 	else if (fmt->modifier == J)
@@ -240,13 +240,14 @@ t_format	*create_format(char *str, va_list ap)
 
 	if (!(fmt = (t_format *)malloc(sizeof(t_format))))
 		return (NULL);
+	fmt->minus = 0;
 	set_conversion(str, fmt);
 	fmt->width = get_width(str, ap, fmt);
 	fmt->precision = get_precision(str, fmt, ap);
 	if (!fmt->modifier)
 		fmt->modifier = get_modifier(str);
 	set_flags(str, fmt);
-	if (ft_strchr("diouxXb", fmt->conversion) && fmt->precision != -1)
+	if (ft_strchr("diouxXbp", fmt->conversion) && fmt->precision != -1)
 		fmt->zero = 0;
 	if (fmt->conversion == 'c')
 		fmt->handler = &handle_char;
@@ -436,7 +437,7 @@ void	print_format(t_format *fmt)
 	i = 1;
 	printf(
 "maillon numero :%d\nconversion: %c\nwidth:%u\nprecision: %d\nmodifier: \
-%hd\nplus: %hhd\nminus: %hhd\nzero: %hhd\nprefixe: %hhd\n",
+%hd\nsigne: %c\nminus: %c\nzero: %hhd\nprefixe: %hhd\n",
 		i, fmt->conversion,
 		fmt->width, fmt->precision, fmt->modifier, fmt->signe, fmt->minus,
 		fmt->zero, fmt->prefixe);

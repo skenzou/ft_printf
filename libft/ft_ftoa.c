@@ -6,39 +6,22 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/02 22:26:31 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 00:05:50 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static long double		round_num(long double d, int precision)
 {
-	long double i;
-	long double doublesave;
-	int			save;
-	int			temp;
+	long double		diviseur;
 
-	i = 1.0;
-	doublesave = d;
-	save = precision + 1;
-	while (precision-- > 0)
-		i /= 10.0;
-	d -= ((int)d);
-	while (save-- > 0)
-	{
-		d *= 10.0;
-		temp = d;
-		d -= temp;
-	}
-	while (temp == 5)
-	{
-		d *= 10.0;
-		temp = d;
-		d -= temp;
-	}
-	return (temp < 5 ? doublesave : doublesave + i);
+	diviseur = 5;
+	if (!precision)
+		return (d + (d > 0.0 ? 0.5 : -0.5));
+	while (precision-- >= 0)
+		diviseur /= 10;
+	return (d + (d > 0.0 ? diviseur : -diviseur));
 }
 
 char	*ft_ftoa(long double d, int precision)
@@ -68,11 +51,3 @@ char	*ft_ftoa(long double d, int precision)
 	str = ft_strjoin(ft_strjoin(ft_itoa(save), "."), str);
 	return (str);
 }
-
-/*int main (void)
-{
-	long double d = 127.999;
-	printf("ftoa restul test: %s\n", ft_ftoa(d, 34));
-	//printf("rounded num: %Lf\n",round_num(d, 31));
-	printf("%.34Lf\n", d);
-}*/
