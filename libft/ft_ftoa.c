@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 00:05:50 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 07:01:04 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static long double		round_num(long double d, int precision)
 	return (d + (d > 0.0 ? diviseur : -diviseur));
 }
 
-char	*ft_ftoa(long double d, int precision)
+char					*ft_ftoa(long double d, int precision)
 {
 	long long	temp;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 00:06:29 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 06:21:55 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define Z	6
 # define J  7
 
-typedef struct	s_format
+typedef struct		s_format
 {
 	char			conversion;
 	int				width;
@@ -36,24 +36,24 @@ typedef struct	s_format
 	char			prefixe;
 	int				base;
 	int				(*handler)(struct s_format *fmt, va_list ap);
-}				t_format;
+}					t_format;
 
 int					ft_printf(const char *restrict format, ...);
 t_format			*create_format(char *str, va_list ap);
 int					parse_format(char *str, va_list ap);
 int					check_conversion(char **str);
 void				set_conversion(char *str, t_format *fmt);
-short				get_modifier(char *str);
+short				get_modifier(char *str, t_format *fmt);
 int					get_precision(char *str, t_format *fmt, va_list ap);
 int					get_width(char *str, va_list ap, t_format *fmt);
 short				get_signe(char *str);
 char				get_zero(char *str);
 char				get_space(char *str);
-int					ft_printf(const char *restrict format, ...);
 void				set_flags(char *str, t_format *fmt);
 int					handle_char(t_format *fmt, va_list ap);
 int					handle_numbers(t_format *fmt, va_list ap);
 int					handle_str(t_format *fmt, va_list ap);
+int					handle_percent(t_format *fmt, va_list ap);
 intmax_t			get_signed(t_format *fmt, va_list ap);
 uintmax_t			get_unsigned(t_format *fmt, va_list ap);
 int					print_numbers(t_format *fmt, char *str, int len);

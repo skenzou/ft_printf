@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstpushfront.c                                  :+:      :+:    :+:   */
+/*   ft_count_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skenz <skenz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/22 16:19:57 by skenz             #+#    #+#             */
-/*   Updated: 2019/01/23 11:18:11 by midrissi         ###   ########.fr       */
+/*   Created: 2019/02/08 01:30:19 by midrissi          #+#    #+#             */
+/*   Updated: 2019/02/08 01:32:30 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_lstpushfront(t_list **alst, t_list *new)
+int		ft_count_char(char c, char *str)
 {
-  if(alst)
-    (*alst)->next = new;
+	int i;
+
+	i = 0;
+	while (*str)
+		i += (*(str++) == c);
+	return (i);
 }

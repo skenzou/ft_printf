@@ -6,7 +6,7 @@
 /*   By: jfinet <jfinet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 14:50:02 by jfinet            #+#    #+#             */
-/*   Updated: 2019/02/07 22:26:56 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 06:50:50 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <limits.h>
-#include "ft_printf.h"
+#include "printf.h"
 
 int main()
 {
