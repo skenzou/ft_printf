@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 07:01:04 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 23:00:24 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ static long double		round_num(long double d, int precision)
 	return (d + (d > 0.0 ? diviseur : -diviseur));
 }
 
+static	char			*create_string(long long save, char **decimal, int prec)
+{
+	char *str;
+	char *integer;
+
+	if (prec == -2)
+	{
+		ft_strdel(decimal);
+		return (ft_itoa(save));
+	}
+	integer = ft_itoa(save);
+	str = ft_strjoin(integer, ".");
+	ft_strdel(&integer);
+	integer = str;
+	str = ft_strjoin(str, *decimal);
+	ft_strdel(&integer);
+	ft_strdel(decimal);
+	return (str);
+}
+
 char					*ft_ftoa(long double d, int precision)
 {
 	long long	temp;
@@ -35,7 +55,8 @@ char					*ft_ftoa(long double d, int precision)
 	save = d;
 	d -= save;
 	i = 0;
-	str = (char *)malloc(sizeof(char) * (precision + 1));
+	if (!(str = (char *)malloc(sizeof(char) * (precision + 1))))
+		return (NULL);
 	str[precision] = '\0';
 	d = d < 0 ? -d : d;
 	precision = !precision ? -1 : precision;
@@ -46,8 +67,5 @@ char					*ft_ftoa(long double d, int precision)
 		str[i++] = temp + 48;
 		d -= temp;
 	}
-	if (precision == -2)
-		return (ft_itoa(save));
-	str = ft_strjoin(ft_strjoin(ft_itoa(save), "."), str);
-	return (str);
+	return (create_string(save, &str, precision));
 }

@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:23:27 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 06:19:41 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:00:31 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void			set_flags(char *str, t_format *fmt)
 		if (*str == '+' && ft_strchr("dif", fmt->conversion))
 			fmt->signe = '+';
 		fmt->minus = *str == '-' ? '-' : fmt->minus;
-		if (*str == '#' && fmt->conversion == 'o')
+		if (*str == '#' && (fmt->conversion == 'o' || fmt->conversion == 'f'))
 			fmt->prefixe = 1;
 		if ((*str == '#' && (fmt->conversion == 'x' || fmt->conversion == 'X')))
 			fmt->prefixe = 2;

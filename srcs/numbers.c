@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:12:40 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 05:32:55 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:57:12 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,21 @@ int				print_numbers(t_format *fmt, char *str, int len)
 char			*get_string(t_format *fmt, va_list ap)
 {
 	char *str;
+	char *temp;
 
 	str = NULL;
+	temp = NULL;
 	if (fmt->conversion == 'f')
 	{
 		if (fmt->modifier == LU)
 			str = ft_ftoa(va_arg(ap, long double), fmt->precision);
 		else
 			str = ft_ftoa(va_arg(ap, double), fmt->precision);
+		if (str && fmt->prefixe && !ft_strchr(str, '.') && (temp = str))
+			str = ft_strjoin(str, ".");
+		ft_strdel(&temp);
 		fmt->precision = 0;
+		fmt->prefixe = 0;
 	}
 	else if (fmt->conversion == 'd' || fmt->conversion == 'i')
 		str =

@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 12:38:34 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/06 15:45:01 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/08 22:25:01 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 
 char	*ft_itoa(intmax_t n)
 {
-	char *nb;
+	char *str;
+	char *temp;
 
-	nb = ft_utoa_base(ABS(n), 10, 0);
-	return (n < 0 ? ft_strjoin("-", nb) : nb);
+	str = ft_utoa_base(ABS(n), 10, 0);
+	if (n < 0)
+	{
+		temp = str;
+		str = ft_strjoin("-", str);
+		ft_strdel(&temp);
+	}
+	return (str);
 }
