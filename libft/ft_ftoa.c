@@ -6,12 +6,11 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:09:19 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/10 02:13:34 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/10 03:48:14 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static long double		round_num(long double d, int precision)
 {
