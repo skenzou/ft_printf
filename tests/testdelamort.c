@@ -6,7 +6,7 @@
 /*   By: jfinet <jfinet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 14:50:02 by jfinet            #+#    #+#             */
-/*   Updated: 2019/02/09 03:26:47 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/10 03:10:23 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 
 #include <stdio.h>
 #include <limits.h>
-#include "printf.h"
+#include "ft_printf.h"
 
 int main()
 {
+	int x;
+	x = 10000;
 
-	//OCTAL\\
-
+while (x--)
+{
 	//1
 	ft_printf("printf1     :|%5o|%5.3o|%5.1o|%5.0o|%5.o|\n", 0,0,0,0,0);
 
@@ -39,7 +41,7 @@ int main()
 	ft_printf("printf5     :|%-0#5o|%-0#5.3o|%-0#5.1o|%-0#5.0o|%-0#5.o|\n", 0,0,0,0,0);
 
 
-	//HEXA\\
+
 
 	//1
 	ft_printf("printf1     :|%5x|%5.3x|%5.1x|%5.0x|%5.x|\n", 0,0,0,0,0);
@@ -100,7 +102,7 @@ int main()
 	ft_printf("printf7      :|% 03d|\n", 0);
 
 
-	//unsigned\\
+
 	//1
 	ft_printf("printf1     :|%+ 5u|%+ 5.3u|%+ 5.1u|%+ 5.0u|%+ 5.u|\n", 0,0,0,0,0);
 
@@ -120,4 +122,5 @@ int main()
 
 	//7
 	ft_printf("printf7      :|% 03u|\n", 0);
+	}
 }

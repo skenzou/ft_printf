@@ -6,7 +6,7 @@
 #    By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/29 10:58:01 by midrissi          #+#    #+#              #
-#    Updated: 2019/02/09 02:47:33 by midrissi         ###   ########.fr        #
+#    Updated: 2019/02/09 23:07:47 by midrissi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ $(OBJ): $(SRCS)
 clean:
 	@rm -f $(OBJ)
 	@rm -rf $(OBJDIR)
-	@make clean -C $(LPATH)
+	@make fclean -C $(LPATH)
 
 fclean: clean
 	@rm -f $(NAME)

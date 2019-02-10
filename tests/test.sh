@@ -1,107 +1,25 @@
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-make && make d && ./o | cat -e
-
-
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
+./ft_printf_speedtest
