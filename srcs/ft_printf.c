@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 06:19:42 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/10 20:55:30 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,10 @@ t_format	*create_format(char *str, va_list ap)
 	set_flags(str, fmt);
 	if (ft_strchr("diouxXbp", fmt->conversion) && fmt->precision != -1)
 		fmt->zero = 0;
-	if (fmt->conversion == 'c')
+	if (fmt->conversion == 'c' || fmt->conversion == '%')
 		fmt->handler = &handle_char;
 	else if (fmt->conversion == 's')
 		fmt->handler = &handle_str;
-	else if (fmt->conversion == '%')
-		fmt->handler = &handle_percent;
 	else
 		fmt->handler = &handle_numbers;
 	return (fmt);

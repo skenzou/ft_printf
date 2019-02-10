@@ -6,36 +6,20 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:11:05 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 21:41:26 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/10 20:54:58 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		handle_percent(t_format *fmt, va_list ap)
-{
-	char	c;
-
-	(void)ap;
-	c = '%';
-	if (fmt->minus)
-	{
-		ft_putchar(c);
-		ft_nputchar(' ', fmt->width - 1);
-	}
-	else
-	{
-		ft_nputchar(fmt->zero ? '0' : ' ', fmt->width - 1);
-		ft_putchar(c);
-	}
-	return (fmt->width > 0 ? fmt->width : 1);
-}
-
 int		handle_char(t_format *fmt, va_list ap)
 {
 	char	c;
 
-	c = (char)va_arg(ap, int);
+	if (fmt->conversion == 'c')
+		c = (char)va_arg(ap, int);
+	else
+		c = '%';
 	if (fmt->minus)
 	{
 		ft_putchar(c);

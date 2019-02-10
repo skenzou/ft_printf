@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:23:27 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/08 20:00:31 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/02/10 21:36:28 by midrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		ft_count_modifiers(char c, char *str)
 	return (i);
 }
 
-short			get_modifier(char *str, t_format *fmt)
+int				get_modifier(char *str, t_format *fmt)
 {
 	int lcount;
 	int hcount;
