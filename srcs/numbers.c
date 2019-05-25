@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:12:40 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/10 21:32:40 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/05/25 11:23:35 by Mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,5 @@ char			*get_string(t_format *fmt, va_list ap)
 	else
 		str =
 		ft_utoa_base(get_unsigned(fmt, ap), fmt->base, !(fmt->conversion > 96));
-	str == NULL ? exit(1) : NULL;
 	return (str);
 }

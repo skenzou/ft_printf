@@ -6,13 +6,13 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:10:48 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/10 20:55:30 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/05/25 11:38:16 by Mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		set_conversion(char *str, t_format *fmt)
+static void			set_conversion(char *str, t_format *fmt)
 {
 	fmt->modifier = 0;
 	while (*str)
@@ -38,7 +38,7 @@ void		set_conversion(char *str, t_format *fmt)
 	fmt->conversion = 0;
 }
 
-int			check_conversion(char **str)
+static int			check_conversion(char **str)
 {
 	while (**str && !ft_strchr(CONV, **str))
 	{
@@ -52,7 +52,7 @@ int			check_conversion(char **str)
 	return (1);
 }
 
-t_format	*create_format(char *str, va_list ap)
+static t_format		*create_format(char *str, va_list ap)
 {
 	t_format	*fmt;
 
@@ -76,20 +76,24 @@ t_format	*create_format(char *str, va_list ap)
 	return (fmt);
 }
 
-int			parse_format(char *str, va_list ap)
+static int			parse_format(char *str, va_list ap, int ret)
 {
 	t_format	*fmt;
-	int			ret;
+	int			temp;
 
-	ret = 0;
 	while (*str)
 	{
 		if (*str == '%')
 		{
 			fmt = create_format(++str, ap);
-			if (check_conversion(&str))
-				ret += fmt->handler(fmt, ap);
+			if (fmt && check_conversion(&str))
+			{
+				temp = fmt->handler(fmt, ap);
+				ret += temp;
+			}
 			free(fmt);
+			if (!fmt || temp == -1)
+				return (-1);
 		}
 		else
 		{
@@ -106,7 +110,7 @@ int			ft_printf(const char *restrict format, ...)
 	int			ret;
 
 	va_start(ap, format);
-	ret = parse_format((char *)format, ap);
+	ret = parse_format((char *)format, ap, 0);
 	va_end(ap);
 	return (ret);
 }

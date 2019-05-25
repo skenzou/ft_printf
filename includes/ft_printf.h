@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 12:11:51 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/10 21:32:41 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/05/25 11:38:04 by Mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ typedef struct		s_format
 }					t_format;
 
 int					ft_printf(const char *restrict format, ...);
-t_format			*create_format(char *str, va_list ap);
-int					parse_format(char *str, va_list ap);
-int					check_conversion(char **str);
-void				set_conversion(char *str, t_format *fmt);
 int					get_modifier(char *str, t_format *fmt);
 int					get_precision(char *str, t_format *fmt, va_list ap);
 int					get_width(char *str, va_list ap, t_format *fmt);

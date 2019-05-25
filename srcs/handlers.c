@@ -6,7 +6,7 @@
 /*   By: midrissi <midrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 05:11:05 by midrissi          #+#    #+#             */
-/*   Updated: 2019/02/10 20:54:58 by midrissi         ###   ########.fr       */
+/*   Updated: 2019/05/25 11:24:02 by Mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int		handle_str(t_format *fmt, va_list ap)
 		str = ft_strsub(str, 0, (size_t)fmt->precision);
 		fmt->precision = -5;
 	}
-	str == NULL ? exit(1) : NULL;
+	if (!str)
+		return (-1);
 	ret = ft_strlen(str);
 	if (fmt->minus)
 	{
@@ -67,7 +68,8 @@ int		handle_numbers(t_format *fmt, va_list ap)
 	char		*str;
 	int			len;
 
-	str = get_string(fmt, ap);
+	if (!(str = get_string(fmt, ap)))
+		return (-1);
 	if (!fmt->precision && str[0] == '0' && fmt->conversion != 'f')
 	{
 		if (fmt->conversion == 'x' || fmt->conversion == 'X')
